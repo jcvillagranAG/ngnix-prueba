@@ -10,9 +10,9 @@ jobs:
 
     env:
       REGISTRY: localhost:5000
-      IMAGE_NAME: nginx-k8s-demo
+      IMAGE_NAME: nginx-lab
       IMAGE_TAG: ${{ github.sha }}
-      DEPLOYMENT_NAME: nginx-github
+      DEPLOYMENT_NAME: nginx-lab
       CONTAINER_NAME: nginx
 
     steps:
