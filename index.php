@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>DEMO</title>
+<title>Laboratorio Textil</title>
 
 <style>
 body {
