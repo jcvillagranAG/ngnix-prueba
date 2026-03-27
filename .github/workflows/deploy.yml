@@ -1,41 +1,45 @@
-name: Build and Deploy
+name: build-and-deploy-local
 
 on:
   push:
     branches: ['main']
 
 jobs:
-  build-deploy:
+  build_push:
     runs-on: self-hosted
 
     env:
-      REGISTRY: localhost:5000
-      IMAGE_NAME: nginx-lab
+      REGISTRY: ccplabtxt:5000
+      IMAGE_NAME: ImagenPRD
       IMAGE_TAG: ${{ github.sha }}
       DEPLOYMENT_NAME: nginx-lab
       CONTAINER_NAME: nginx
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Build image
-        run: |
-          docker build -t $REGISTRY/$IMAGE_NAME:$IMAGE_TAG .
-          docker tag $REGISTRY/$IMAGE_NAME:$IMAGE_TAG $REGISTRY/$IMAGE_NAME:latest
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
-      - name: Push image
-        run: |
-          docker push $REGISTRY/$IMAGE_NAME:$IMAGE_TAG
-          docker push $REGISTRY/$IMAGE_NAME:latest
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push (LOCAL)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/arm64
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
       - name: Deploy to Kubernetes
         run: |
           kubectl set image deployment/${{ env.DEPLOYMENT_NAME }} \
-          ${{ env.CONTAINER_NAME }}=$REGISTRY/$IMAGE_NAME:$IMAGE_TAG
+          ${{ env.CONTAINER_NAME }}=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
           kubectl rollout status deployment/${{ env.DEPLOYMENT_NAME }}
 
       - name: Verify Pods
-        run: kubectl get pods
-        
+        run: kubectl get pods -o wide
