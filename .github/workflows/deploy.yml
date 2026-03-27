@@ -10,9 +10,9 @@ jobs:
 
     env:
       REGISTRY: ccplabtxt:5000
-      IMAGE_NAME: ImagenPRD
+      IMAGE_NAME: laboratoriotextil2
       IMAGE_TAG: ${{ github.sha }}
-      DEPLOYMENT_NAME: nginx-lab
+      DEPLOYMENT_NAME: laboratoriotextil2
       CONTAINER_NAME: nginx
 
     steps:
