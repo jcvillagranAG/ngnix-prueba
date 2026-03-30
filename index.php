@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Laboratorio Textil</title>
+<title>Login</title>
 
 <style>
 body {
@@ -115,7 +115,7 @@ button:disabled {
 <div class="container">
     <div class="card">
 
-        <div class="logo">HOLA MUNDO RUNNER LAB</div>
+        <div class="logo">HOLA MUNDO</div>
 
         <h2>Iniciar sesión</h2>
         <div class="subtitle">

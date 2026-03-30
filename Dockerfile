@@ -88,3 +88,4 @@ HEALTHCHECK CMD curl -f http://localhost/ || exit 1
 
 
 CMD service nginx start && php-fpm
+
